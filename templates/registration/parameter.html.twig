@@ -1,0 +1,51 @@
+{% extends 'accueil.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="container col-md-8">
+        <div class="card bg-transparent">
+            <div class="card-header">{{ utilisateur.username }}: {{ utilisateur.prenom }} {{ utilisateur.nom }}</div>
+            <div class="card-body">
+                <form method="post" action="{{ path('affecter',{'id':utilisateur.id} ) }}">
+                    {% for role in roles %}
+                        <tr>
+                            <td>{{ role.name }}</td>
+                            <td>
+                                <input type="hidden" name="idUser" {% if idUser is defined %} value="{{ idUser }}" {% endif %} />
+                                <input type="checkbox"
+                                        {% if utilisateur.getRoles is not empty%}
+                                            {%for r in utilisateur.getRoles %}
+                                                {% if r in roles %}
+                                                    checked="checked"
+                                                {% endif %}
+                                            {%endfor%}
+                                        {%endif%}
+                                       name="roles[]" value="{{ role.name }}"/>
+                            </td>
+                        </tr>
+                    {%endfor%}
+                    {% if utilisateur_roles is defined%}
+                    <tr>
+                        <td colspan="2">
+                            <input class="btn btn-success" type="submit" value="Attribuer roles"/>
+                        </td>
+                    </tr>
+                    {%endif%}
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container col-md-4">
+        <div class="card">
+            <div class="card-header">Formulaire de Création d'utilisateurs</div>
+            <div class="card-body">
+                {% for flashError in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                {% endfor %}
+
+                {{ form(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'accueil.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="container col-md-8">
+        <div class="card bg-transparent">
+            <div class="card-header">Liste des Rôles</div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Identifiant</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Identifiant</th>
+                        <th>Parametrer</th>
+                        <th>Supprimer</th>
+                    </tr>
+                    {% for u in utilisateurs %}
+                        <tr>
+                            <td>{{ u.id }}</td>
+                            <td>{{ u.nom}}</td>
+                            <td>{{ u.prenom }}</td>
+                            <td>{{ u.email }}</td>
+                            <td>{{ u.username}}</td>
+                            <td><a class="btn btn-dark" href="{{ path('edit_utilisateur',{'id':u.id} ) }}"><i class="fa fa-cogs"></i></a></--td>
+                            <td><a class="btn btn-danger" href="{{ path('delete_utilisateur',{'id':u.id} ) }}"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                    {%endfor%}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container col-md-4">
+        <div class="card">
+            <div class="card-header">Formulaire de Création d'utilisateurs</div>
+            <div class="card-body">
+                {% for flashError in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                {% endfor %}
+
+                {{ form(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
