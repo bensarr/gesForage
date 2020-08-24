@@ -70,7 +70,6 @@ class UtilisateurController extends AbstractController
         $roles = $em->getRepository(Roles::class)->findAll();
         $data['roles']=$roles;
         $data['utilisateur'] = $u;
-        $data['utilisateur_roles'] = $u->getRoles();
         $data['idUser'] = $id;
 
         return $this->render('registration/parameter.html.twig', $data);
@@ -90,8 +89,7 @@ class UtilisateurController extends AbstractController
                 $roles = array();
                 foreach ($request->request->get('roles') as $nom)
                 {
-
-                    $roles[] = $em->getRepository(Roles::class)->findOneBy(['name'=>$nom]);
+                    array_push($roles, $em->getRepository(Roles::class)->findOneBy(['name'=>$nom]));
                 }
                 $u->setRoles($roles[]);//Modification des roles
                 $em->flush();

@@ -14,23 +14,21 @@
                             <td>
                                 <input type="hidden" name="idUser" {% if idUser is defined %} value="{{ idUser }}" {% endif %} />
                                 <input type="checkbox"
-                                        {% if utilisateur.getRoles is not empty%}
-                                            {%for r in utilisateur.getRoles %}
-                                                {% if r in roles %}
-                                                    checked="checked"
-                                                {% endif %}
+                                        {% if utilisateur.getRoles is not null %}
+                                            {% for r in utilisateur.getRoles|filter(r=> r in roles) %}
+                                                checked="checked"
                                             {%endfor%}
                                         {%endif%}
                                        name="roles[]" value="{{ role.name }}"/>
                             </td>
                         </tr>
                     {%endfor%}
-                    {% if utilisateur_roles is defined%}
-                    <tr>
-                        <td colspan="2">
-                            <input class="btn btn-success" type="submit" value="Attribuer roles"/>
-                        </td>
-                    </tr>
+                    {% if utilisateur.getRoles is not null%}
+                        <tr>
+                            <td colspan="2">
+                                <input class="btn btn-success" type="submit" value="Attribuer roles"/>
+                            </td>
+                        </tr>
                     {%endif%}
                 </form>
             </div>
