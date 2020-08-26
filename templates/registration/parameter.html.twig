@@ -3,40 +3,10 @@
 {% block title %}Utilisateurs{% endblock %}
 
 {% block body %}
-    <div class="container col-md-8">
-        <div class="card bg-transparent">
-            <div class="card-header">{{ utilisateur.username }}: {{ utilisateur.prenom }} {{ utilisateur.nom }}</div>
-            <div class="card-body">
-                <form method="post" action="{{ path('affecter',{'id':utilisateur.id} ) }}">
-                    {% for role in roles %}
-                        <tr>
-                            <td>{{ role.name }}</td>
-                            <td>
-                                <input type="hidden" name="idUser" {% if idUser is defined %} value="{{ idUser }}" {% endif %} />
-                                <input type="checkbox"
-                                        {% if utilisateur.getRoles is not null %}
-                                            {% for r in utilisateur.getRoles|filter(r=> r in roles) %}
-                                                checked="checked"
-                                            {%endfor%}
-                                        {%endif%}
-                                       name="roles[]" value="{{ role.name }}"/>
-                            </td>
-                        </tr>
-                    {%endfor%}
-                    {% if utilisateur.getRoles is not null%}
-                        <tr>
-                            <td colspan="2">
-                                <input class="btn btn-success" type="submit" value="Attribuer roles"/>
-                            </td>
-                        </tr>
-                    {%endif%}
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="container col-md-4">
+
+    <div class="container col-md-12">
         <div class="card">
-            <div class="card-header">Formulaire de Création d'utilisateurs</div>
+            <div class="card-header">Formulaire de Paramétrage d'utilisateurs</div>
             <div class="card-body">
                 {% for flashError in app.flashes('verify_email_error') %}
                     <div class="alert alert-danger" role="alert">{{ flashError }}</div>

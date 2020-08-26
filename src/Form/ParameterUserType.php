@@ -20,20 +20,22 @@ class ParameterUserType extends AbstractType
         $builder
             ->add('username', TextType::class,array('label'=>'Identifiant','attr'=>array('class'=>'form-control form-group')))
             ->add('password', PasswordType::class,array('label'=>'Mot de passe','attr'=>array('class'=>'form-control form-group')))
-            ->add('nom', TextType::class,array('label'=>'Nom','attr'=>array('class'=>'form-control form-group')))
-            ->add('prenom', TextType::class,array('label'=>'Prénom','attr'=>array('class'=>'form-control form-group')))
-            ->add('email', EmailType::class,array('label'=>'Email','attr'=>array('class'=>'form-control form-group')))
+            ->add('nom', TextType::class,array('label'=>'Nom','attr'=>array('class'=>'form-control form-group','readonly'=>'readonly')))
+            ->add('prenom', TextType::class,array('label'=>'Prénom','attr'=>array('class'=>'form-control form-group','readonly'=>'readonly')))
+            ->add('email', EmailType::class,array('label'=>'Email','attr'=>array('class'=>'form-control form-group','readonly'=>'readonly')))
             ->add('roles',EntityType::class,
                 array(
                     'class'=>Roles::class,
                     'label'=>'Rôles',
+                    'expanded'=>true,
                     'multiple'=> true,
                     'attr'=>array(
                         'class'=>'form-control form-group'
-                    )
+                    ),
+                    'data'=>$options['mesroles']
                 )
             )
-            ->add('Enregistrer',SubmitType::class,array('attr'=>array('class'=>'btn btn-info form-group')))
+            ->add('Enregistrer',SubmitType::class,array('attr'=>array('class'=>'btn btn-dark form-group')))
         ;
     }
 
@@ -42,5 +44,6 @@ class ParameterUserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
         ]);
+        $resolver->setRequired(array('mesroles'));
     }
 }

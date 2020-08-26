@@ -96,7 +96,7 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
+    public function getRoles()
     {
         $roles = array();
         foreach ($this->roles as $r)
@@ -105,7 +105,6 @@ class User implements UserInterface
         }
         return array_unique($roles);
     }
-
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;

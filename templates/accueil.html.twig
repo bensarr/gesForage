@@ -42,23 +42,7 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div class="nav">
-                    <div class="sb-sidenav-menu-heading">Core</div>
-                    {% if is_granted('ROLE_GESTION_STOCK') %}
-                        <a class="nav-link" href="{{ path('liste_produit') }}"
-                        ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Produits</a
-                        >
-                        <a class="nav-link" href="{{ path('liste_entree') }}"
-                        ><div class="sb-nav-link-icon"><i class="fas fa-battery-empty"></i></div>
-                            Entrées</a
-                        >
-                    {% endif %}
-                    {% if is_granted('ROLE_VENDEUR') %}
-                        <a class="nav-link" href="{{ path('liste_sortie') }}"
-                        ><div class="sb-nav-link-icon"><i class="fas fa-battery-full"></i></div>
-                            Sorties</a
-                        >
-                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
                     <div class="sb-sidenav-menu-heading">Agents</div>
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSecretaire" aria-expanded="false" aria-controls="collapseLayouts"
                     ><div class="sb-nav-link-icon"><i class="fas fa-sticky-note"></i></div>
@@ -81,6 +65,7 @@
                             <a class="nav-link" href="layout-static.html">Paiement</a>
                         </nav>
                     </div>
+                    {% endif %}
                     <div class="sb-sidenav-menu-heading">Administration</div>
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"
                     ><div class="sb-nav-link-icon"><i class="fas fa-server"></i></div>

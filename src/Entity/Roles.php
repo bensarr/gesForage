@@ -86,19 +86,9 @@ class Roles
 
         return $this;
     }
-    public function chercherRole(array $roles, Roles $r)
+    public function __toString()
     {
-        $bol = false;
-        foreach($roles as $role)
-        {
-            if($role->getId() === $r->getId())
-            {
-                $bol = true;
-            }
-        }
-        if($bol == true)
-        {
-            echo " checked='checked'";
-        }
+        return $this->name;
     }
+
 }
