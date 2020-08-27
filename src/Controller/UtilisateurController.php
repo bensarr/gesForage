@@ -117,7 +117,7 @@ class UtilisateurController extends AbstractController
                     $u->getPassword()
                 //$form->get('plainPassword')->getData()
                 ));
-            $user->setRoles($u->getRoles()); //LE TYPE EN ARTGUMENT EST UN STRING DOMMAGE
+            $user->setRoles($u->getRoles()); //LE TYPE EN ARTGUMENT EST UN Tableau de STRING DOMMAGE
             $em->flush();
         }
         return $this->redirectToRoute('registration/parameter.html.twig');
@@ -134,6 +134,6 @@ class UtilisateurController extends AbstractController
             $em->remove($u);
             $em->flush();
         }
-        return $this->redirectToRoute('registration/parameter.html.twig');
+        return $this->redirectToRoute('liste_utilisateurs');
     }
 }

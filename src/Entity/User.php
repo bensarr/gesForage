@@ -58,9 +58,51 @@ class User implements UserInterface
      */
     private $isVerified = false;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Chef::class, mappedBy="user")
+     */
+    private $chefs;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Village::class, mappedBy="user")
+     */
+    private $villages;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Client::class, mappedBy="user")
+     */
+    private $clients;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Abonnement::class, mappedBy="user")
+     */
+    private $abonnements;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Compteur::class, mappedBy="user")
+     */
+    private $compteurs;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Releve::class, mappedBy="User")
+     */
+    private $releves;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Facture::class, mappedBy="user")
+     */
+    private $factures;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->chefs = new ArrayCollection();
+        $this->villages = new ArrayCollection();
+        $this->clients = new ArrayCollection();
+        $this->abonnements = new ArrayCollection();
+        $this->compteurs = new ArrayCollection();
+        $this->releves = new ArrayCollection();
+        $this->factures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -206,6 +248,223 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Chef[]
+     */
+    public function getChefs(): Collection
+    {
+        return $this->chefs;
+    }
+
+    public function addChef(Chef $chef): self
+    {
+        if (!$this->chefs->contains($chef)) {
+            $this->chefs[] = $chef;
+            $chef->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChef(Chef $chef): self
+    {
+        if ($this->chefs->contains($chef)) {
+            $this->chefs->removeElement($chef);
+            // set the owning side to null (unless already changed)
+            if ($chef->getUser() === $this) {
+                $chef->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Village[]
+     */
+    public function getVillages(): Collection
+    {
+        return $this->villages;
+    }
+
+    public function addVillage(Village $village): self
+    {
+        if (!$this->villages->contains($village)) {
+            $this->villages[] = $village;
+            $village->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVillage(Village $village): self
+    {
+        if ($this->villages->contains($village)) {
+            $this->villages->removeElement($village);
+            // set the owning side to null (unless already changed)
+            if ($village->getUser() === $this) {
+                $village->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Client[]
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(Client $client): self
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients[] = $client;
+            $client->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Client $client): self
+    {
+        if ($this->clients->contains($client)) {
+            $this->clients->removeElement($client);
+            // set the owning side to null (unless already changed)
+            if ($client->getUser() === $this) {
+                $client->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Abonnement[]
+     */
+    public function getAbonnements(): Collection
+    {
+        return $this->abonnements;
+    }
+
+    public function addAbonnement(Abonnement $abonnement): self
+    {
+        if (!$this->abonnements->contains($abonnement)) {
+            $this->abonnements[] = $abonnement;
+            $abonnement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbonnement(Abonnement $abonnement): self
+    {
+        if ($this->abonnements->contains($abonnement)) {
+            $this->abonnements->removeElement($abonnement);
+            // set the owning side to null (unless already changed)
+            if ($abonnement->getUser() === $this) {
+                $abonnement->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Compteur[]
+     */
+    public function getCompteurs(): Collection
+    {
+        return $this->compteurs;
+    }
+
+    public function addCompteur(Compteur $compteur): self
+    {
+        if (!$this->compteurs->contains($compteur)) {
+            $this->compteurs[] = $compteur;
+            $compteur->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompteur(Compteur $compteur): self
+    {
+        if ($this->compteurs->contains($compteur)) {
+            $this->compteurs->removeElement($compteur);
+            // set the owning side to null (unless already changed)
+            if ($compteur->getUser() === $this) {
+                $compteur->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Releve[]
+     */
+    public function getReleves(): Collection
+    {
+        return $this->releves;
+    }
+
+    public function addRelefe(Releve $relefe): self
+    {
+        if (!$this->releves->contains($relefe)) {
+            $this->releves[] = $relefe;
+            $relefe->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRelefe(Releve $relefe): self
+    {
+        if ($this->releves->contains($relefe)) {
+            $this->releves->removeElement($relefe);
+            // set the owning side to null (unless already changed)
+            if ($relefe->getUser() === $this) {
+                $relefe->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Facture[]
+     */
+    public function getFactures(): Collection
+    {
+        return $this->factures;
+    }
+
+    public function addFacture(Facture $facture): self
+    {
+        if (!$this->factures->contains($facture)) {
+            $this->factures[] = $facture;
+            $facture->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacture(Facture $facture): self
+    {
+        if ($this->factures->contains($facture)) {
+            $this->factures->removeElement($facture);
+            // set the owning side to null (unless already changed)
+            if ($facture->getUser() === $this) {
+                $facture->setUser(null);
+            }
+        }
 
         return $this;
     }
