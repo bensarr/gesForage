@@ -30,7 +30,7 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i>{{ app.user.prenom }} {{ app.user.nom }}</a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">Settings</a><a class="dropdown-item" href="#">Activity Log</a>
+                <a class="dropdown-item" href="{{ path('settings_utilisateur' ) }}">Settings</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
@@ -42,7 +42,7 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div class="nav">
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_CAISSIER') %}
                     <div class="sb-sidenav-menu-heading">Agents</div>
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSecretaire" aria-expanded="false" aria-controls="collapseLayouts"
                     ><div class="sb-nav-link-icon"><i class="fas fa-sticky-note"></i></div>
@@ -68,6 +68,7 @@
                         </nav>
                     </div>
                     {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
                     <div class="sb-sidenav-menu-heading">Administration</div>
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
                     ><div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
@@ -80,6 +81,7 @@
                             <a class="nav-link" href="{{ path('liste_utilisateurs') }}">Agents</a>
                         </nav>
                     </div>
+                    {% endif %}
 
                 </div>
             </div>
@@ -92,13 +94,9 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h1 class="mt-4">Dashboard</h1>
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item active">Dashboard</li>
-                </ol>
                 <div class="row">
                     <!--************************** Contenu Begin******************************** -->
-                    {% block body %}{% endblock %}
+                    {% block body %}<img src="{{ asset('images/monimage.png') }}" style="width: 100%; height: 30%;" alt="alternatetext">{% endblock %}
                     <!--************************** Contenu End******************************** -->
                 </div>
             </div>
@@ -106,7 +104,7 @@
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid">
                 <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                    <div class="text-muted">Copyright &copy; Your Website 2020</div>
                     <div>
                         <a href="#">Privacy Policy</a>
                         &middot;

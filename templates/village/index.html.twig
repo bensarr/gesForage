@@ -1,0 +1,48 @@
+{% extends 'accueil.html.twig' %}
+
+{% block title %}Villages{% endblock %}
+
+{% block body %}
+    <div class="container col-md-6">
+        <div class="card bg-transparent">
+            <div class="card-header">Liste des Villages</div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Identifiant</th>
+                        <th>Nom</th>
+                        <th>Chef Village</th>
+                        <th>Editer</th>
+                        <th>Supprimer</th>
+                    </tr>
+                    {% for v in villages %}
+                        <tr>
+                            <td>{{ v.id }}</td>
+                            <td>{{ v.nom }}</td>
+                            <td>{{ v.chef.nom }}  {{ v.chef.prenom }}</td>
+                            <td><a class="btn btn-dark" href="{{ path('edit_village',{'id':v.id} ) }}"><i class="fa fa-edit"></i></a></td>
+                            <td><a class="btn btn-danger" href="{{ path('delete_village',{'id':v.id} ) }}"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                    {%endfor%}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container col-md-6">
+        <div class="card">
+            <div class="card-header">Formulaire de gestion des Villages</div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                    <div class="chef">
+                        {{ form_row(form.nom) }}
+                        {{ form_row(form.chef.nom) }}
+                        {{ form_row(form.chef.prenom) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}
+
+{% endblock %}

@@ -33,6 +33,10 @@ class Compteur
      * @ORM\OneToMany(targetEntity=Releve::class, mappedBy="compteur")
      */
     private $releves;
+    /**
+     * @ORM\OneToOne(targetEntity=Abonnement::class, cascade={"persist", "remove"})
+     */
+    private $abonnement;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="compteurs")
@@ -110,6 +114,22 @@ class Compteur
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAbonnement()
+    {
+        return $this->abonnement;
+    }
+
+    /**
+     * @param mixed $abonnement
+     */
+    public function setAbonnement($abonnement): void
+    {
+        $this->abonnement = $abonnement;
     }
 
     public function getUser(): ?User

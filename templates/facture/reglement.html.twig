@@ -1,0 +1,151 @@
+{% extends 'accueil.html.twig' %}
+
+{% block title %}Villages{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="{{ asset('facture/style.css') }}">
+    <div class="container col-md-12 invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table class="table-responsive-md">
+                        <tr>
+                            <td class="title">
+                                <img src="{{ asset('facture/monlogo.png') }}" style="width:100%; max-width:300px;">
+                            </td>
+
+                            <td><br><a class="btn btn-success" href="{{ path('regler_facture',{'id':f.id}) }}">Enregistrer Paiement Facture</a><br><br><br>
+                                <strong>Facture #</strong>: {{ f.numero }}<br>
+                                <strong>Du</strong>: {{ r.datefr }}<br>
+                                <strong>Date Limite</strong>: {{ f.datefr }}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                SUNU Forage, Inc.<br>
+                                12345 Sunny Road<br>
+                                Sunnyville, CA 12345
+                            </td>
+
+                            <td>
+                                {{ cl.nom }}<br>
+                                {{ cl.tel }}<br>
+                                {{ cl.adresse }}, {{ cl.village }}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="heading">
+                <td>
+                    Dates Relevés
+                </td>
+
+                <td>
+                    Cumul #
+                </td>
+            </tr>
+
+            <tr class="details">
+                <td>
+                    {{ r.datefr }}
+                </td>
+
+                <td>
+                    {{ r.valeurEnChiffre }} m<sup>3</sup>
+                </td>
+            </tr>
+            {% if rb is defined %}
+                <tr class="details">
+                    <td>
+                        {{ rb.datefr }}
+                    </td>
+
+                    <td>
+                        <strong> - </strong> {{ rb.valeurEnChiffre }} m<sup>3</sup>
+                    </td>
+                </tr>
+            {% endif %}
+            <tr class="total">
+                <td></td>
+
+                <td>
+                    Consommation(cons):
+                    {% if rb is defined%}
+                        {{ r.valeurEnChiffre - rb.valeurEnChiffre }} m<sup>3</sup>
+                    {% else %}
+                        {{ r.valeurEnChiffre }}
+                    {% endif %}
+                </td>
+            </tr>
+
+            <tr class="heading">
+                <td>
+                    Element
+                </td>
+
+                <td>
+                    Prix
+                </td>
+            </tr>
+
+            <tr class="item">
+                <td>
+                    Prix(pu) du m<sup>3</sup>
+                </td>
+
+                <td>
+                    {{ f.pu }} FCFA
+                </td>
+            </tr>
+
+            <tr class="item">
+                <td>
+                    Montant (cons x pu)
+                </td>
+
+                <td>
+                    {{ f.montant }} FCFA
+                </td>
+            </tr>
+
+            <tr class="item last">
+                <td>
+                    Taxe(Montant x 5%) si date limite expirée
+                </td>
+
+                <td>
+                    {{ f.taxe }} FCFA
+                </td>
+            </tr>
+
+            <tr class="total">
+                <td></td>
+
+                <td class="alert-danger">
+                    Total à Réglet: {{ f.montant + f.taxe }} FCFA
+                </td>
+            </tr>
+
+            <tr class="total">
+                <td></td>
+
+                <td>
+                    <a class="btn btn-success" href="{{ path('regler_facture',{'id':f.id}) }}">Enregistrer Paiement Facture</a>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+{% endblock %}
+{% block footer %}
+
+{% endblock %}

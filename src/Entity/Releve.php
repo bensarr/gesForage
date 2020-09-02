@@ -38,14 +38,14 @@ class Releve
     private $compteur;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Facture::class, inversedBy="releves")
-     */
-    private $facture;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="releves")
      */
     private $User;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Facture::class, inversedBy="releves")
+     */
+    private $Facture;
 
     /**
      * @param mixed $id
@@ -108,18 +108,6 @@ class Releve
         return $this;
     }
 
-    public function getFacture(): ?Facture
-    {
-        return $this->facture;
-    }
-
-    public function setFacture(?Facture $facture): self
-    {
-        $this->facture = $facture;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->User;
@@ -130,5 +118,25 @@ class Releve
         $this->User = $User;
 
         return $this;
+    }
+
+    public function getFacture(): ?Facture
+    {
+        return $this->Facture;
+    }
+
+    public function setFacture(?Facture $Facture): self
+    {
+        $this->Facture = $Facture;
+
+        return $this;
+    }
+    function datefr()
+    {
+        $Mois = array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
+        //$madate=new \DateTime(date("Y-m-t",date($this->date->format('Y-m-t'))));
+        $madate=\DateTime::createFromFormat('d-m-Y',$this->date->format('d-m-Y'));
+        $m = $madate->format("d")." ".$Mois[$madate->format("m")-1]." ".$madate->format("Y");
+        return $m;
     }
 }

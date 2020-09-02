@@ -1,0 +1,88 @@
+{% extends 'accueil.html.twig' %}
+
+{% block title %}Villages{% endblock %}
+
+{% block body %}
+    <div class="container col-md-8">
+        <div class="card bg-transparent">
+            <div class="card-body">
+                <div class="container-fluid">
+                    {{ form_start(formSearch) }}
+                    <div class="form-row">
+                        <div class="col">
+                            {{ form_row(formSearch.numeroAbonnement) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(formSearch.nomClient) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(formSearch.compteur) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(formSearch.village) }}
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                    {{ form_end(formSearch) }}
+                </div>
+            </div>
+            <div class="card-header">Liste des Abonnements</div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Numéro</th>
+                        <th>Village</th>
+                        <th>Client</th>
+                        <th>Compteur</th>
+                        <th>Actions</th>
+                        <th>Factures</th>
+                    </tr>
+                    {% for a in abonnements %}
+                        <tr>
+                            <td>{{ a.numero }} </td>
+                            <td>{{ a.client.village.nom }} </td>
+                            <td>{{ a.client.nom }} </td>
+                            <td>
+                                <a class="btn btn-light" href="{{ path('liste_releve',{'id':a.compteur.id} ) }}">
+                                    {{ a.compteur.numero }}
+                                    <i
+                                        {% if a.compteur.etat %}
+                                             class="btn-success fa fa-tint"
+                                        {% else %}
+                                             class="btn-danger fa fa-tint-slash"
+                                        {% endif %}
+                                    ></i>
+                                </a>
+                            </td>
+                            <td><a class="btn btn-dark" href="{{ path('edit_abonnement',{'id':a.id} ) }}"><i class="fa fa-cogs"></i></a></td>
+                            <td><a class="btn btn-primary" href="{{ path('liste_factures',{'id':a.compteur.id} ) }}"><i class="fa fa-print"></i></a></td>
+                        </tr>
+                    {%endfor%}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container col-md-4">
+        <div class="card">
+            <div class="card-header">Formulaire de gestion des Villages</div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                <div class="client">
+                    {{ form_row(form.numero) }}
+                    {{ form_row(form.date) }}
+                    {{ form_row(form.compteur) }}
+                    {{ form_row(form.client.nom) }}
+                    {{ form_row(form.client.tel) }}
+                    {{ form_row(form.client.adresse) }}
+                    {{ form_row(form.client.village) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}
+
+{% endblock %}

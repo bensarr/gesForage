@@ -37,6 +37,10 @@ class Client
      * @ORM\JoinColumn(nullable=false)
      */
     private $village;
+    /**
+     * @ORM\OneToOne(targetEntity=Abonnement::class, cascade={"persist", "remove"})
+     */
+    private $abonnement;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="clients")
@@ -107,4 +111,21 @@ class Client
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAbonnement()
+    {
+        return $this->abonnement;
+    }
+
+    /**
+     * @param mixed $abonnement
+     */
+    public function setAbonnement($abonnement): void
+    {
+        $this->abonnement = $abonnement;
+    }
+
 }

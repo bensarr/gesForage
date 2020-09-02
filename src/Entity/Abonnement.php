@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AbonnementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,10 @@ class Abonnement
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="abonnements")
      */
     private $user;
+
+    public function __construct()
+    {
+    }
 
     /**
      * @param mixed $id
@@ -113,16 +119,6 @@ class Abonnement
         $this->user = $user;
 
         return $this;
-    }
-    public function avoirConso()
-    {
-        $releves=$this->getCompteur()->getReleves();
-        if(count($releves)==1)
-            return array_pop($releves)->getValeurEnChiffre();
-
-        $last=array_pop($releves);
-        $beforeLast=array_pop($releves);
-        return $last->getValeurEnChiffre()-$beforeLast->getValeurEnChiffre();
     }
 
 }

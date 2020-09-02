@@ -20,6 +20,7 @@ class RelevesType extends AbstractType
             ->add('date',DateType::class,array('label'=>'Date du Relevé','attr'=>array('class'=>'form-control form-group')))
             ->add('valeurEnChiffre',TextType::class,array('label'=>'Relevé En Chiffre','attr'=>array('class'=>'form-control form-group')))
             ->add('valeurEnLettre',TextType::class,array('label'=>'Relevé En Lettre','attr'=>array('class'=>'form-control form-group')))
+            ->add('facture',FactureType::class,array('attr'=>array('class'=>'form-control form-group')))
             ->add('Enregistrer',SubmitType::class,array('attr'=>array('class'=>'btn btn-dark form-group')))
         ;
     }

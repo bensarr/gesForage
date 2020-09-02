@@ -14,7 +14,7 @@ class CompteurType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('numero')
+            ->add('numero',TextType::class,array('label'=>'Numéro Compteur','attr'=>array('class'=>'form-control form-group')))
             //->add('etat',TextType::class,array('label'=>'Nom','attr'=>array('class'=>'form-control form-group')))
             ->add('Enregistrer',SubmitType::class,array('attr'=>array('class'=>'btn btn-dark form-group')))
         ;

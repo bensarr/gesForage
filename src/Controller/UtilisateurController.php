@@ -18,6 +18,18 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UtilisateurController extends AbstractController
 {
     private $mesroles=array();
+
+    private $passwordEncoder;
+
+    /**
+     * UtilisateurController constructor.
+     * @param $passwordEncoder
+     */
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     /**
      * @Route("/Utilisateur/liste", name="liste_utilisateurs")
      */
@@ -38,7 +50,7 @@ class UtilisateurController extends AbstractController
     /**
      * @Route("/Utilisateur/add", name="add_utilisateur")
      */
-    public function add(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function add(Request $request)
     {
         $u=new User();
         $form = $this->createForm(RegistrationFormType::class, $u);
@@ -47,7 +59,7 @@ class UtilisateurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $u = $form->getData();
             $u->setPassword(
-                $passwordEncoder->encodePassword(
+                $this->passwordEncoder->encodePassword(
                     $u,
                     'passer123'
                     //$form->get('plainPassword')->getData()
@@ -93,13 +105,38 @@ class UtilisateurController extends AbstractController
     }
 
     /**
+     * @Route("/Utilisateur/settings", name="settings_utilisateur")
+     * @param Securize $securizer
+     */
+    public function settings(Securize $securizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $u=$this->getUser();
+        $data['utilisateur'] = $u;
+        $roles = $em->getRepository(Roles::class)->findAll();
+        $data['roles']=$roles;
+
+        foreach ($roles as $role) {
+            if($securizer->isGranted($u,$role->getName()))
+                array_push($this->mesroles,$role);
+        }
+
+        $form=$this->createForm(ParameterUserType::class,
+            $u,
+            array('mesroles'=>$this->mesroles,'action'=>$this->generateUrl('update_utilisateur',['id'=>$u->getId()]))
+        );
+        $data['form']=$form->createView();
+
+
+        return $this->render('registration/parameter.html.twig', $data);
+    }
+    /**
      * @Route("/Utilisateur/update/{id}", name="update_utilisateur")
      * @param $id
      * @param Request $request
-     * @param UserPasswordEncoderInterface $passwordEncoder
      * @return RedirectResponse
      */
-    public function update($id, Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function update($id, Request $request)
     {
         $u=new User();
         $form = $this->createForm(ParameterUserType::class, $u,['mesroles'=>$this->mesroles]);
@@ -111,16 +148,16 @@ class UtilisateurController extends AbstractController
             //Récupération valeurs
             $em = $this->getDoctrine()->getManager();
             $user=$em->getRepository(User::class)->find($u->getId());
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $u,
-                    $u->getPassword()
-                //$form->get('plainPassword')->getData()
-                ));
-            $user->setRoles($u->getRoles()); //LE TYPE EN ARTGUMENT EST UN Tableau de STRING DOMMAGE
+            $em->getRepository(User::class)->upgradePassword($user,$this->passwordEncoder->encodePassword($u,$u->getPassword()));
+            $roles=[];
+            foreach ($u->getRoles() as $role) {
+                $roles[]=$em->getRepository(Roles::class)->findOneBy(['name'=>$role]); //LE TYPE EN ARTGUMENT EST UN Tableau de STRING DOMMAGE
+                }
+            $user->setUsername($u->getUsername());
+            $user->setRoles($roles);
             $em->flush();
         }
-        return $this->redirectToRoute('registration/parameter.html.twig');
+        return $this->redirectToRoute('liste_utilisateurs');
     }
     /**
      * @Route("/Utilisateur/delete/{id}", name="delete_utilisateur")

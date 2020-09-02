@@ -25,12 +25,12 @@ class Facture
     private $numero;
 
     /**
-     * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @ORM\Column(type="decimal", precision=10, scale=0)
      */
     private $pu;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @ORM\Column(type="decimal", precision=10, scale=0)
      */
     private $montant;
 
@@ -40,26 +40,28 @@ class Facture
     private $etat;
 
     /**
-     * @ORM\OneToMany(targetEntity=Releve::class, mappedBy="facture")
+     * @ORM\OneToMany(targetEntity=Releve::class, mappedBy="Facture")
      */
     private $releves;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $dateLimite;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="factures")
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=0)
+     */
+    private $taxe;
+
     public function __construct()
     {
         $this->releves = new ArrayCollection();
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
     }
 
     public function getId(): ?int
@@ -146,6 +148,18 @@ class Facture
         return $this;
     }
 
+    public function getDateLimite(): ?\DateTimeInterface
+    {
+        return $this->dateLimite;
+    }
+
+    public function setDateLimite(\DateTimeInterface $dateLimite): self
+    {
+        $this->dateLimite = $dateLimite;
+
+        return $this;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -156,5 +170,25 @@ class Facture
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getTaxe(): ?string
+    {
+        return $this->taxe;
+    }
+
+    public function setTaxe(string $taxe): self
+    {
+        $this->taxe = $taxe;
+
+        return $this;
+    }
+    function datefr()
+    {
+        $Mois = array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
+        //$madate=new \DateTime(date("Y-m-t",date($this->date->format('Y-m-t'))));
+        $madate=\DateTime::createFromFormat('d-m-Y',$this->dateLimite->format('d-m-Y'));
+        $m = $madate->format("d")." ".$Mois[$madate->format("m")-1]." ".$madate->format("Y");
+        return $m;
     }
 }

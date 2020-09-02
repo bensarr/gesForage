@@ -22,19 +22,26 @@ class FactureRepository extends ServiceEntityRepository
     // /**
     //  * @return Facture[] Returns an array of Facture objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByAbonnement($id,$etat=null)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $qb= $this->createQueryBuilder('f')
+            ->leftJoin('f.releves', 'r')
+            ->leftJoin('r.compteur','c' )
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $id);
+        if($etat)
+        {
+            $qb=$qb
+                ->andWhere('f.etat = :etat')
+                ->setParameter('etat', $etat);
+        }
+
+        return $qb->orderBy('f.dateLimite', 'DESC')
+                ->getQuery()
+                ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Facture
